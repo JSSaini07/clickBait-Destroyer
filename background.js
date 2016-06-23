@@ -59,6 +59,11 @@ function getDefaultContent(result) // default extraction method
     addToBody(content);
 }
 
+function stateError() {
+  content='Request Timeout';
+  addToBody(content);
+}
+
 function addToBody(content)
 {
   if($('#baitContentHiddenInput').length>0)
@@ -89,7 +94,8 @@ chrome.extension.onMessage.addListener(function(postlink,tabinfo) {
   $.ajax({
     type:'GET',
     url:getFilteredLink(postlink),
-    success:function(result){getFilteredContent(postlink,result);}
+    success:function(result){getFilteredContent(postlink,result);},
+    error:function(err){stateError();}
   });
 } catch(e){console.log(e)};
 });
