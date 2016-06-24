@@ -37,7 +37,7 @@ function destroyBait(clickbaitbutton) {
   clearInterval(waitForCommentBoxToAppear);
   commentSibling=clickbaitbutton.parentElement.children[1].children[0];
   commentSibling.dispatchEvent(clickEvent);
-  commentSibling.scrollIntoView();
+  clickbaitbutton.scrollIntoView();
   while(clickbaitbutton.getElementsByClassName('_6m3').length==0)
   {
     clickbaitbutton=clickbaitbutton.parentElement;
