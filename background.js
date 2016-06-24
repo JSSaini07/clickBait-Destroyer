@@ -46,15 +46,23 @@ function getDefaultContent(result) // default extraction method
     content="Could not Destroy this bait :(";
     for(i=0;i<paragraphs.length;i++)
     {
-      console.log($(paragraphs[i]).text());
-      validParagraph=$(paragraphs[i]).text();  // check some conditions for a valid paragraph
-      validParagraph=validParagraph.split('	').join('').split(' ').join(''); // split it on spaces to count the number of spaces
-      if(content=="Could not Destroy this bait :("&&validParagraph.length>=60&&$(paragraphs[i]).text().length<=(validParagraph.length*2)&&$(paragraphs[i]).text().length*0.9>=(validParagraph.length))
+      //console.log($(paragraphs[i]).text());
+      paragraph=$(paragraphs[i]).text();
+      validParagraph=paragraph;  // check some conditions for a valid paragraph
+      validParagraph=validParagraph.split('	').join('').split(' ').join('').split(unescape('%0A')).join(''); // split it on spaces to count the number of spaces
+      condition1=(paragraph[0]!=' ')&&(paragraph[0]!='	')&&(paragraph[0]!=unescape('%0A'));
+      condition2=(validParagraph.length>=60);
+      condition3=(paragraph.length<=(validParagraph.length*2));
+      condition4=(paragraph.length*0.9>=(validParagraph.length));
+      console.log(paragraph+"--------------------------------------"+validParagraph);
+      console.log('copy'+escape(paragraph[0])+'this');
+      console.log(paragraph.length+" "+validParagraph.length);
+      if(content=="Could not Destroy this bait :("&&condition1&&condition2&&condition3&&condition4)
       {
         content='*'+$(paragraphs[i]).text();
       }
       else
-      if(validParagraph.length>=60&&$(paragraphs[i]).text().length<=(validParagraph.length*2)&&$(paragraphs[i]).text().length*0.9>=(validParagraph.length)) {
+      if(condition1&&condition2&&condition3&&condition4) {
           content+='                                                                                                                                        *'+$(paragraphs[i]).text();
       }
     }
@@ -75,7 +83,7 @@ function addToBody(content)
   hiddenInput=document.createElement('input');
   hiddenInput.id='baitContentHiddenInput';
   hiddenInput.value=content;
-  console.log(content);
+  //console.log(content);
   $('body').append(hiddenInput);
   hiddenInput=$('#baitContentHiddenInput');
   hiddenInput.select();
