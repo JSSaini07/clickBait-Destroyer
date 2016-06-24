@@ -1,4 +1,6 @@
 
+waitForCommentBoxToAppear='';
+
 var clickEvent = new MouseEvent("click", {
     "view": window,
     "bubbles": true,
@@ -9,13 +11,14 @@ post="";
 baitContent="";
 
 $(document).ready(function(){
-  interval=setInterval(function(){addClickBaitButton()},1000);
+  addClickBaitButton();
 });
 
 function addClickBaitButton()
 {
   try {
-    post=document.getElementsByClassName('_5jmm')[0];
+    post=$('._5jmm').not('.handelled')[0];
+    $(post).addClass('handelled');
     clickbaitlinkdiv=post.getElementsByClassName('_6m3');
     if(clickbaitlinkdiv.length>0){
       clickbaitlinkdiv=clickbaitlinkdiv[0];
@@ -25,12 +28,13 @@ function addClickBaitButton()
       clickbait.innerHTML='<strong>Destroy Clickbait</strong>';
       clickbait.addEventListener('click',function(){destroyBait(this);})
       postbuttons.appendChild(clickbait);
-    }
-    post.className='abc';
+  }
   } catch(e){}
+  setTimeout(function(){addClickBaitButton()},1000);
 }
 
 function destroyBait(clickbaitbutton) {
+  clearInterval(waitForCommentBoxToAppear);
   commentSibling=clickbaitbutton.parentElement.children[1].children[0];
   commentSibling.dispatchEvent(clickEvent);
   commentSibling.scrollIntoView();
@@ -55,8 +59,16 @@ function checkOpenState() {
     {
       console.log('Window Closed');
       clearInterval(windowInterval);
-      commentField=$(':focus');
-      document.execCommand('paste');
+      waitForCommentBoxToAppear=setInterval(function(){
+        commentField=$(':focus');
+        if(commentField.length!=0) {
+          document.execCommand('paste');
+          clearInterval(waitForCommentBoxToAppear);
+        }
+        else {
+          console.log('waiting');
+        }
+      },100);
     }
     else {
       console.log('Window Still Open');

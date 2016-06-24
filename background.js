@@ -42,18 +42,20 @@ function getScoopwhoopContent(result) // responsible for selecting various funct
 function getDefaultContent(result) // default extraction method
 {
     result=$(result);
-    console.log(result);
-    paragraphs=result.find('p');
+    paragraphs=result.find('p,li,ul,h1,h2,h3,h4,h5,h6');
     content="Could not Destroy this bait :(";
     for(i=0;i<paragraphs.length;i++)
     {
       console.log($(paragraphs[i]).text());
-      if(i==0)
+      validParagraph=$(paragraphs[i]).text();  // check some conditions for a valid paragraph
+      validParagraph=validParagraph.split('	').join('').split(' ').join(''); // split it on spaces to count the number of spaces
+      if(content=="Could not Destroy this bait :("&&validParagraph.length>=60&&$(paragraphs[i]).text().length<=(validParagraph.length*2)&&$(paragraphs[i]).text().length*0.9>=(validParagraph.length))
       {
-        content=$(paragraphs[0]).text();
+        content='*'+$(paragraphs[i]).text();
       }
-      else {
-          content+=$(paragraphs[i]).text();
+      else
+      if(validParagraph.length>=60&&$(paragraphs[i]).text().length<=(validParagraph.length*2)&&$(paragraphs[i]).text().length*0.9>=(validParagraph.length)) {
+          content+='                                                                                                                                        *'+$(paragraphs[i]).text();
       }
     }
     addToBody(content);
