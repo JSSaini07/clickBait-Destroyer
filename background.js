@@ -54,9 +54,6 @@ function getDefaultContent(result) // default extraction method
       condition2=(validParagraph.length>=60);
       condition3=(paragraph.length<=(validParagraph.length*2));
       condition4=(paragraph.length*0.9>=(validParagraph.length));
-      console.log(paragraph+"--------------------------------------"+validParagraph);
-      console.log('copy'+escape(paragraph[0])+'this');
-      console.log(paragraph.length+" "+validParagraph.length);
       if(content=="Could not Destroy this bait :("&&condition1&&condition2&&condition3&&condition4)
       {
         content='*'+$(paragraphs[i]).text();
